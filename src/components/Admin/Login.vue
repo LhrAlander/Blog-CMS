@@ -18,7 +18,7 @@
       <div class="alert alert-danger" role="alert" :class="{'visible': errtype==0}">请输入用户名</div>
       <div class="input-group">
         <span :class="{'error': errtype==1}" class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-        <input :class="{'error': errtype==1}" v-model="pwd" type="text" class="form-control" placeholder="密码" aria-describedby="sizing-addon2">
+        <input :class="{'error': errtype==1}" v-model="pwd" type="password" class="form-control" placeholder="密码" aria-describedby="sizing-addon2">
       </div>
       <div class="alert alert-danger" role="alert" :class="{'visible': errtype==1}">请输入密码</div>
       <div class="button-group"><button type="button" class="btn btn-primary" @click="login">登录</button></div>
@@ -50,6 +50,13 @@
           else {
             this.errtype = -1
             //TODO 发送请求
+            let user = {
+              userId: this.username,
+              password: this.pwd
+            }
+            this.$store.dispatch('login', {
+              user: user
+            })
           }
         }
       }

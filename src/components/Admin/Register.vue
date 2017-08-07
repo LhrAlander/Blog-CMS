@@ -18,12 +18,12 @@
       <div class="alert alert-danger" role="alert" :class="{'visible': errtype==0}">请输入注册账号</div>
       <div class="input-group">
         <span :class="{'error': errtype==1}" class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-        <input :class="{'error': errtype==1}" v-model="pwd" type="text" class="form-control" placeholder="输入密码" aria-describedby="sizing-addon2">
+        <input :class="{'error': errtype==1}" v-model="pwd" type="password" class="form-control" placeholder="输入密码" aria-describedby="sizing-addon2">
       </div>
       <div class="alert alert-danger" role="alert" :class="{'visible': errtype==1}">请输入注册密码</div>
       <div class="input-group">
         <span :class="{'error': errtype==2}" class="input-group-addon"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span></span>
-        <input :class="{'error': errtype==2}" v-model="checkpwd" type="text" class="form-control" placeholder="再次输入密码" aria-describedby="sizing-addon2">
+        <input :class="{'error': errtype==2}" v-model="checkpwd" type="password" class="form-control" placeholder="再次输入密码" aria-describedby="sizing-addon2">
       </div>
       <div class="alert alert-danger" role="alert" :class="{'visible': errtype==2}">{{errtext}}</div>
       <div class="button-group"><button type="button" class="btn btn-success" @click="register">注册</button></div>
@@ -72,6 +72,13 @@
           else {
             this.errtype = -1
             //TODO 发送请求
+            let user = {
+              userId: this.username,
+              password: this.pwd
+            }
+            this.$store.dispatch('doReg', {
+              user: user
+            })
           }
         }
       }
