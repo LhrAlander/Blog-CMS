@@ -3,10 +3,12 @@
  */
 let express = require('express')
 let router = express.Router()
-let db = require('../db')
+let _db = require('../db')
+let db = _db.connection
 let crypto = require('../util/crypto')
 let settins = require('../settings')
 let jwt = require('jwt-simple')
+let api = require('../api')
 
 router.post('/reg.do', (req, res, next) => {
   let user = req.body.user
@@ -74,6 +76,50 @@ router.post('/login.do', (req, res, next) => {
       message: message
     }
     res.send(data)
+  })
+})
+router.post('/createtype.do', (req, res, next) => {
+  let type = req.body
+  api.findType(type, (data) => {
+    console.log(data)
+    if (!data.length) {
+      api.createType(type, (data) => {
+        res.json({
+          code: 1,
+          message: "创建分类成功"
+        })
+      })
+    }
+    else {
+      res.json({
+        code: 0,
+        message: "该分类已存在"
+      })
+    }
+  })
+})
+router.post('/gettypelist.do', (req, res, next) => {
+  api.getTypeList(data => {
+    console.log(data)
+    res.send(data)
+  })
+})
+
+router.post('/deltype.do', (req, res, next) => {
+  let type = req.body
+  api.delType(type.name, data => {
+    if (data.affectedRows) {
+      res.send({
+        code: 1,
+        message: '删除分类成功'
+      })
+    }
+    else {
+      res.send({
+        code: 0,
+        message: '删除分类失败'
+      })
+    }
   })
 })
 

@@ -2,7 +2,9 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-12 create">
-        <button type="button" class="btn btn-primary">创建文章</button>
+        <router-link to="/admin/createArticle">
+          <button type="button" class="btn btn-primary" @click="$emit('createArticle')">创建文章</button>
+        </router-link>
       </div>
     </div>
     <div class="row head-title">
@@ -21,7 +23,10 @@
       <div class="col-xs-2">
           <button type="button" class="btn btn-default btn-sm">查看</button>
           <button type="button" class="btn btn-primary btn-sm">编辑</button>
+
+        <div class="del" data-toggle="modal" data-target="#del-type">
           <button type="button" class="btn btn-danger btn-sm">删除</button>
+        </div>
       </div>
     </div>
     <div class="row page">
@@ -37,6 +42,25 @@
         </nav>
       </div>
     </div>
+    <!--Modal-->
+    <div class="modal fade" id="del-type" tabindex="-1" role="dialog" aria-labelledby="delLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="delLabel">提醒</h4>
+          </div>
+          <div class="modal-body">
+            确认要删除吗？
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" @click="delType">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -121,6 +145,22 @@
   .page ul {
     margin: 0;
     float: right;
+  }
+
+  .del {
+    display: inline-block;
+    padding: 0;
+  }
+
+  #del-type {
+    margin-top: 290px;
+  }
+
+
+  /*Modal CSS*/
+  #del-type .modal-header,
+  #del-type .modal-footer {
+    border: none;
   }
 
 </style>

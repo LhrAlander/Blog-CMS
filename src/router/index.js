@@ -6,6 +6,7 @@ import Register from 'components/Admin/Register'
 import Admin from 'components/Admin/Admin'
 import Article from 'components/Admin/Article'
 import Type from 'components/Admin/Type'
+import CreateArticle from 'components/Admin/CreateArticle'
 
 Vue.use(Router)
 
@@ -38,6 +39,10 @@ export default new Router({
         {
           path: 'type',
           component: Type
+        },
+        {
+          path: 'createArticle',
+          component: CreateArticle
         }
       ]
     }

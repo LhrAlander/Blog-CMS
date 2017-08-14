@@ -49,7 +49,6 @@
           }
           else {
             this.errtype = -1
-            //TODO 发送请求
             let user = {
               userId: this.username,
               password: this.pwd

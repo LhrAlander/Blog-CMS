@@ -21,6 +21,7 @@ exports.actions = {
       .then(res => {
         let token = res.data.token
         if (token) {
+          console.log(token)
           window.localStorage.setItem('token', token)
           commit('login')
         }
@@ -28,5 +29,11 @@ exports.actions = {
       .catch(err => {
         console.log(err)
       })
+  },
+  createType (commit, payload) {
+    return function () {
+      console.log('promise')
+      axios.post('/api/createtype.do', payload)
+    }
   }
 }

@@ -27,17 +27,17 @@
           <transition name="toggle">
             <div class="dropdown-item" v-if="subShow">
               <router-link to="/admin/article">
-                <div class="admin-items deep-item" @click="isActive = true">
+                <div class="admin-items deep-item" @click="currentStat = '文章管理'">
                   <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                  <span :class="{ selected: isActive }" style="padding-top: 2px;">文章管理</span>
+                  <span :class="{ selected: currentStat === '文章管理' }" style="padding-top: 2px;">文章管理</span>
                   <div class="spe" style="width: 340px"></div>
                   <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                 </div>
               </router-link>
               <router-link to="/admin/type">
-                <div class="admin-items deep-item" @click="isActive = false">
+                <div class="admin-items deep-item" @click="currentStat = '分类管理'">
                   <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
-                  <span :class="{ selected: !isActive }" style="padding-top: 2px;">分类管理</span>
+                  <span :class="{ selected: currentStat === '分类管理' }" style="padding-top: 2px;">分类管理</span>
                   <div class="spe" style="width: 340px"></div>
                   <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                 </div>
@@ -50,9 +50,9 @@
         <div class="col-xs-9 right">
           <ol class="breadcrumb">
             <li>管理面板</li>
-            <li class="active">{{ isActive ? '文章管理' : '分类管理' }}</li>
+            <li class="active">{{ currentStat }}</li>
           </ol>
-          <router-view></router-view>
+          <router-view @createArticle="currentStat = '创建文章'"></router-view>
         </div>
       </div>
     </div>
@@ -65,7 +65,8 @@
         data () {
             return {
               isActive: true,
-              subShow: false
+              subShow: false,
+              currentStat: "文章管理"
             }
         }
     }
