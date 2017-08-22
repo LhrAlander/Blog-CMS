@@ -72,7 +72,7 @@
 <script>
     import marked from 'marked'
     import hljs from 'highlight.js'
-    import  'highlight.js/styles/default.css'
+    import  'highlight.js/styles/darkula.css'
 
     export default {
       data () {
