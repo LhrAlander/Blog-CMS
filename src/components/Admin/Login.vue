@@ -30,6 +30,7 @@
 </template>
 
 <script>
+  import api from 'api/index'
     export default {
       data () {
         return {
@@ -53,9 +54,13 @@
               userId: this.username,
               password: this.pwd
             }
-            this.$store.dispatch('login', {
-              user: user
-            })
+            api.doLogin(user)()
+              .then(res => {
+                console.log(res)
+              })
+              .catch(err => {
+                  console.log(err)
+              })
           }
         }
       }

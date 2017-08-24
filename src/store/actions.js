@@ -15,9 +15,8 @@ exports.actions = {
       })
   },
   login ({ commit, state }, payload) {
-    axios.post('/api/login.do', {
-      user: payload.user
-    })
+    console.log(18, payload)
+    axios.post('/api/login.do', payload.user)
       .then(res => {
         let token = res.data.token
         if (token) {

@@ -43,7 +43,7 @@
       <div class="col-xs-12 footer">
         <button class="btn btn-default btn-sm">取消</button>
         <div class="create" data-toggle="modal" data-target="#create-article">
-          <button class="btn btn-sm btn-primary">立即发布</button>
+          <button class="btn btn-sm btn-primary" @click="modelInit">立即发布</button>
         </div>
       </div>
     </div>
@@ -57,11 +57,11 @@
             <h4 class="modal-title" id="delLabel">提醒</h4>
           </div>
           <div class="modal-body">
-            确认提交吗？
+            {{modelObj.modelTip}}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal" @click="btnReturn">{{modelObj.btnMsg}}</button>
+            <button v-if="modelObj.code == -1" type="button" class="btn btn-primary" @click="createArticle">确定</button>
           </div>
         </div>
       </div>
@@ -74,6 +74,10 @@
     import hljs from 'highlight.js'
     import  'highlight.js/styles/darkula.css'
 
+    import util from 'api/util'
+    import api from 'api/index'
+
+    const LABEL_STYLE = ['label-primary', 'label-success', 'label-info', 'label-warning']
     export default {
       data () {
         return {
@@ -83,17 +87,22 @@
             markedCnt: '',
             createTime: ''
           },
-          typeList: []
+          typeList: [],
+          modelObj: {
+            modelTip: '确认提交吗？',
+            code: -1,  // -1准备提交 0信息不全 1创建成功 2创建失败
+            btnMsg: '取消'
+          }
         }
       },
       methods: {
         init () {
-          for (let i = 0; i < 30; i++) {
-            let obj = {}
-            obj.name = 'a' + i
-            obj.style = "label-info"
-            this.typeList.push(obj)
-          }
+//          for (let i = 0; i < 30; i++) {
+//            let obj = {}
+//            obj.name = 'a' + i
+//            obj.style = "label-info"
+//            this.typeList.push(obj)
+//          }
         },
         selectType (item, index) {
           this.article.selectedList.push(item)
@@ -102,6 +111,49 @@
         removeType (item, index) {
           this.typeList.push(item)
           this.article.selectedList.splice(index, 1)
+        },
+        modelInit () {
+          this.modelObj.modelTip = '确认提交吗？'
+          this.modelObj.code = -1
+          this.modelObj.btnMsg = '取消'
+        },
+        createArticle () {
+          if (this.article.title && this.article.selectedList.length && this.article.markedCnt) {
+            this.article.createTime = util.getCurrentTime()
+            api.createArticle(this.article)()
+              .then((res) => {
+                let data = res.data
+                if (data.code == 1) { // 创建成功
+                  this.modelObj.modelTip = '创建文章成功！'
+                  this.modelObj.btnMsg = '确定'
+                  this.modelObj.code = 1
+                }
+                else {
+                  this.modelObj.modelTip = data.msg
+                  this.modelObj.btnMsg = '返回'
+                  this.modelObj.code = 1
+                }
+              })
+              .catch((err) => {
+                this.modelObj.modelTip = '创建文章失败！'
+                this.modelObj.btnMsg = '返回'
+                this.modelObj.code = 2
+              })
+          }
+          else {
+            this.modelObj.modelTip = '文章信息不全，请重新编辑文章信息！'
+            this.modelObj.btnMsg = '确定'
+            this.modelObj.code = 0
+          }
+        },
+        btnReturn () {
+          if (this.modelObj.code == 1) {  // 创建文章成功
+            console.log('成功')
+            this.$router.push('/admin/article')
+          }
+          else if (this.modelObj.code == 0) { // 文章信息不全
+            return
+          }
         }
       },
       computed: {
@@ -115,7 +167,17 @@
         }
       },
       mounted () {
-        this.init()
+        api.getTypeList()()
+          .then(data => {
+            let allTypes = data.data
+            for (let i = 0; i < allTypes.length; i++) {
+              let obj = {}
+              obj.name = allTypes[i].name
+              obj.style = LABEL_STYLE[Math.ceil(Math.random() * 10) % 4]
+              this.typeList.push(obj)
+            }
+            console.log(this.typeList)
+          })
       }
     }
 </script>

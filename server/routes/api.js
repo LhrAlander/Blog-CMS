@@ -3,20 +3,21 @@
  */
 let express = require('express')
 let router = express.Router()
-let _db = require('../db')
-let db = _db.connection
+let db = require('../db')
 let crypto = require('../util/crypto')
 let settins = require('../settings')
 let jwt = require('jwt-simple')
 let api = require('../api')
 
+
 router.post('/reg.do', (req, res, next) => {
   let user = req.body.user
+  console.log(16, user)
   let mySql = 'select * from user where userId="' + user.userId + '"'
   console.log(mySql)
   db.query(mySql, (err, results, fields) => {
     if (err) {
-      throw err;
+      console.log(err)
     }
     else {
       if (!results.length) {
@@ -42,12 +43,14 @@ router.post('/reg.do', (req, res, next) => {
   })
 })
 router.post('/login.do', (req, res, next) => {
-  let user = req.body.user
+  let user = req.body
+  console.log(user)
   let message = ''
   let sql = 'select * from user where userId="'+user.userId+'"'
   db.query(sql, (err, results, fields) => {
     if (err) {
       message = '服务器发生错误！'
+      console.log('登录异常', err)
     }
     else {
       console.log(crypto.getSha1(user.password), results[0].password)
@@ -60,7 +63,7 @@ router.post('/login.do', (req, res, next) => {
           exp: expires
         }, settins.tokenSecret)
         delete user.password
-        res.json({
+        res.send({
           token: token,
           expires: expires,
           user: user
@@ -73,6 +76,7 @@ router.post('/login.do', (req, res, next) => {
     }
 
     let data = {
+      code: -1,
       message: message
     }
     res.send(data)
@@ -83,7 +87,8 @@ router.post('/createtype.do', (req, res, next) => {
   api.findType(type, (data) => {
     console.log(data)
     if (!data.length) {
-      api.createType(type, (data) => {
+      api.createType(type, data => {
+        console.log('88 ', data)
         res.json({
           code: 1,
           message: "创建分类成功"
@@ -100,7 +105,7 @@ router.post('/createtype.do', (req, res, next) => {
 })
 router.post('/gettypelist.do', (req, res, next) => {
   api.getTypeList(data => {
-    console.log(data)
+    console.log(108, data)
     res.send(data)
   })
 })
@@ -108,19 +113,21 @@ router.post('/gettypelist.do', (req, res, next) => {
 router.post('/deltype.do', (req, res, next) => {
   let type = req.body
   api.delType(type.name, data => {
-    if (data.affectedRows) {
-      res.send({
-        code: 1,
-        message: '删除分类成功'
-      })
-    }
-    else {
-      res.send({
-        code: 0,
-        message: '删除分类失败'
-      })
-    }
+    console.log(113, data)
+    res.send(data)
   })
+})
+
+router.post('/createArticle.do', (req, res, next) => {
+  let article = req.body
+  let createCb = data => {
+    res.send(data)
+  }
+  let uidCb = uid => {
+    article.articleId = uid
+    api.createArticle(article, createCb)
+  }
+  api.getUid(uidCb)
 })
 
 module.exports = router

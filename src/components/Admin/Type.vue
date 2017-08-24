@@ -76,7 +76,7 @@
           </div>
           <div class="modal-body">
             <span v-if="!createSuccess">确认要删除吗？</span>
-            <span v-if="createSuccess">删除成功</span>
+            <span v-if="createSuccess">{{delMsg}}</span>
           </div>
           <div class="modal-footer" v-if="!createSuccess">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
@@ -96,13 +96,14 @@
         typeList: [],
         currentIndex: 1,
         totalNum: 0,
-        limit: 1,
+        limit: 10,
         newType: "",
         createErr: false,
         errDetail: '请输入分类名称',
         modal: false,
         createSuccess: false,
-        currentType: ''
+        currentType: '',
+        delMsg: ''
       }
     },
     methods: {
@@ -129,6 +130,7 @@
           data.date = _date
           api.createType(data)()
             .then((res) => {
+              console.log(132, res)
               if (res.status == 200 && res.data.code == 1) { // 创建分类成功
                 this.createSuccess = true
                 this.typeList.push({
@@ -152,8 +154,10 @@
         //TODO 删除分类
         api.delType(this.currentItem)()
           .then(res => {
+            console.log(156, res)
             if (res.status == 200 && res.data.code == 1) { // 删除分类成功
               let len = this.typeList.length
+              this.delMsg = res.data.msg
               for (let i = len - (this.currentIndex - 1) * this.limit; i > len - this.currentIndex * this.limit && i > 0; i--) {
                 if (this.typeList[i-1].name === this.currentItem.name) {
                   this.typeList.splice(i-1, 1)
@@ -165,6 +169,10 @@
                 }
               }
               this.createSuccess = true
+            }
+            else {
+              this.delMsg = res.data.msg
+              this.createSuccess = false
             }
           })
       }

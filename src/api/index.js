@@ -5,6 +5,7 @@ import axios from 'axios'
 
 
 export default {
+  // 数据操作相关
   createType (data) {
     return () => axios.post('/api/createtype.do', data)
   },
@@ -14,5 +15,11 @@ export default {
   },
   delType (data) {
     return () => axios.post('/api/deltype.do', data)
+  },
+  createArticle (article) {
+    return () => axios.post('/api/createArticle.do', article)
+  },
+  doLogin (user) {
+    return () => axios.post('/api/login.do', user)
   }
 }
