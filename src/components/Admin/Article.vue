@@ -18,7 +18,11 @@
     <div class="row article-content" v-if="articleList.length" v-for="(item, index) in articleList">
       <div class="col-xs-1">{{ index + 1 }}</div>
       <div class="col-xs-3">{{ item.createTime }}</div>
-      <div class="col-xs-3">{{ item.type }}</div>
+      <div class="col-xs-3 type-div">
+        <template v-for="t in item.type">
+          {{ t }}&nbsp;&nbsp;
+        </template>
+      </div>
       <div class="col-xs-3">{{ item.title }}</div>
       <div class="col-xs-2">
           <button type="button" class="btn btn-default btn-sm">查看</button>
@@ -29,7 +33,7 @@
         </div>
       </div>
     </div>
-    <div class="row page">
+    <div class="row page" v-if="totalNum != 0">
       <div class="col-xs-12">
         <nav aria-label="...">
           <ul class="pagination">
@@ -55,7 +59,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="delType">确定</button>
+            <button type="button" class="btn btn-primary" @click="">确定</button>
           </div>
         </div>
       </div>
@@ -65,13 +69,15 @@
 </template>
 
 <script>
+    import api from 'api'
     export default {
       data () {
         return {
           articleList: [],
           currentIndex: 1,
           totalNum: 20,
-          limit: 10
+          limit: 10,
+          currentArticle: null
         }
       },
       methods: {
@@ -81,21 +87,55 @@
       },
       mounted () {
           //TODO getArticleList()
-        for (let i = 0; i < 10; i++) {
-          let obj = {}
-          obj.createTime = "2017-8-11"
-          obj.type = i % 2 ? "a" : "b"
-          obj.title = "test title" + i
-          this.articleList.push(obj)
-        }
-        console.log(this.articleList)
-        this.currentIndex = 1
-        this.totalNum = this.articleList.length
+        api.getArticleList()()
+          .then(res => {
+            if (res.data.code == 1) {
+              if (res.data.articles.length) { // 存在文章
+                console.log(res)
+                let articles = res.data.articles
+                articles.forEach((item, i) => {
+                  let obj = {}
+                  obj.createTime = item.createTime
+                  obj.type = i % 2 ? "a" : "b"
+                  obj.title = item.title
+                  obj.articleId = item.articleId
+                  obj.type = item.types
+                  this.articleList.push(obj)
+                })
+                this.currentIndex = 1
+                this.totalNum = this.articleList.length
+              }
+              else {
+                this.currentIndex = 1
+                this.totalNum = 0
+              }
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+//        for (let i = 0; i < 10; i++) {
+//          let obj = {}
+//          obj.createTime = "2017-8-11"
+//          obj.type = i % 2 ? "a" : "b"
+//          obj.title = "test title" + i
+//          this.articleList.push(obj)
+//        }
+//        console.log(this.articleList)
+//        this.currentIndex = 1
+//        this.totalNum = this.articleList.length
       }
     }
 </script>
 
 <style scoped>
+
+  div.type-div {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   .create {
     padding: 10px 15px;
     background-color: #fff;

@@ -129,5 +129,11 @@ router.post('/createArticle.do', (req, res, next) => {
   }
   api.getUid(uidCb)
 })
+router.post('/getArticles.do', (req, res, next) => {
+  let getArticlesCb = data => {
+    res.send(data)
+  }
+  api.getArticleList(getArticlesCb)
+})
 
 module.exports = router

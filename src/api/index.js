@@ -21,5 +21,8 @@ export default {
   },
   doLogin (user) {
     return () => axios.post('/api/login.do', user)
+  },
+  getArticleList () {
+    return () => axios.post('/api/getArticles.do')
   }
 }

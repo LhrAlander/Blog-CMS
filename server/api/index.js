@@ -185,6 +185,37 @@ function deleteFromRelation (name, cb) {
     }
   })
 }
+function createGetRelationTypePromise (articleId, item) {
+  let mySql = `select * from relation where articleId = "${articleId}"`
+  return new Promise((resolve, reject) => {
+      db.query(mySql, (err, results, fields) => {
+        if (err) {
+          reject(err)
+        }
+        else {
+          item.types = results
+          resolve(`${articleId}搜索完毕！ `)
+        }
+      })
+    })
+}
+function operateArticleList (articles, cb) {
+  articles.forEach(item => {
+    let type = item.types[0],
+        types = []
+    for (key in type) {
+      if (type[key] == 1) {
+        types.push(key)
+      }
+    }
+    item.types = types
+  })
+  cb({
+    code: 1,
+    msg: '获取文章列表成功',
+    articles: articles
+  })
+}
 
 module.exports = {
   findType (type, cb) {
@@ -235,5 +266,29 @@ module.exports = {
   },
   getUid (cb) {
     _getUid(cb)
+  },
+  getArticleList (cb) {
+    sql = 'select * from article'
+    db.query(sql, (err, results, fields) => {
+      if (err) {
+        console.error(err)
+        cb({
+          code: 2,
+          msg: '数据库异常'
+        })
+      }
+      else {
+        let asyncProcess = []
+        results.forEach(item => {
+          let articleId = item.articleId,
+              relationTypes
+          asyncProcess.push(createGetRelationTypePromise(articleId, item))
+        })
+        Promise.all(asyncProcess)
+          .then(data => {
+            operateArticleList(results, cb)
+          })
+      }
+    })
   }
 }
