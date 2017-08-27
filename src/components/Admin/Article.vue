@@ -15,7 +15,7 @@
       <div class="col-xs-2">操作</div>
     </div>
     <div class="row null-article" v-if="!articleList.length">暂无内容</div>
-    <div class="row article-content" v-if="articleList.length" v-for="(item, index) in articleList">
+    <div class="row article-content" v-if="articleList.length" v-for="(item, index) in displayList">
       <div class="col-xs-1">{{ index + 1 }}</div>
       <div class="col-xs-3">{{ item.createTime }}</div>
       <div class="col-xs-3 type-div">
@@ -29,7 +29,7 @@
           <button type="button" class="btn btn-primary btn-sm">编辑</button>
 
         <div class="del" data-toggle="modal" data-target="#del-type">
-          <button type="button" class="btn btn-danger btn-sm">删除</button>
+          <button type="button" class="btn btn-danger btn-sm" @click="preDel(item)">删除</button>
         </div>
       </div>
     </div>
@@ -55,11 +55,11 @@
             <h4 class="modal-title" id="delLabel">提醒</h4>
           </div>
           <div class="modal-body">
-            确认要删除吗？
+            {{ modelStat.msg }}
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-            <button type="button" class="btn btn-primary" @click="">确定</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">{{ modelStat.btnMsg }}</button>
+            <button v-if="modelStat.code == -1" type="button" class="btn btn-primary" @click="delArticle">确定</button>
           </div>
         </div>
       </div>
@@ -77,26 +77,72 @@
           currentIndex: 1,
           totalNum: 20,
           limit: 10,
-          currentArticle: null
+          currentArticle: null,
+          modelStat: {
+            code: -1,
+            msg: '确认要删除吗？',
+            btnMsg: '取消'
+          }
         }
       },
       methods: {
         getArticle (index) {
           this.currentIndex = index + 1
+        },
+        preDel (item) {
+          this.currentArticle = item
+          this.modelStat.code = -1
+          this.modelStat.msg = '确认要删除吗？'
+          this.modelStat.btnMsg = '取消'
+        },
+        delArticle () {
+          let articleId = this.currentArticle.articleId
+          api.delArticle({
+            articleId: articleId
+          })()
+            .then(res => {
+              let data = res.data
+              this.modelStat.code = data.code
+              this.modelStat.msg = data.msg
+              this.modelStat.btnMsg = '确定'
+              if (data.code == 1) {
+                for (let i = 0; i < this.articleList.length; i++) {
+                  if (this.articleList[i].articleId === articleId) {
+                    this.articleList.splice(i, 1)
+                    this.totalNum = this.articleList.length
+                    if (this.currentIndex > Math.ceil(this.totalNum / this.limit) && this.currentIndex > 1) {
+                      this.currentIndex--
+                    }
+                    break
+                  }
+                }
+              }
+            })
+            .catch(err => {
+              this.modelStat.code = 3
+              this.modelStat.msg = '删除文章失败'
+              this.modelStat.btnMsg = '返回'
+            })
+        }
+      },
+      computed: {
+        displayList () {
+          let displayList = []
+          for (let i = (this.currentIndex - 1) * this.limit; i < this.articleList.length && i < this.currentIndex * this.limit; i++) {
+              displayList.push(this.articleList[i])
+          }
+          return displayList
         }
       },
       mounted () {
-          //TODO getArticleList()
         api.getArticleList()()
           .then(res => {
             if (res.data.code == 1) {
               if (res.data.articles.length) { // 存在文章
-                console.log(res)
                 let articles = res.data.articles
                 articles.forEach((item, i) => {
                   let obj = {}
                   obj.createTime = item.createTime
-                  obj.type = i % 2 ? "a" : "b"
                   obj.title = item.title
                   obj.articleId = item.articleId
                   obj.type = item.types
@@ -114,16 +160,6 @@
           .catch(err => {
             console.log(err)
           })
-//        for (let i = 0; i < 10; i++) {
-//          let obj = {}
-//          obj.createTime = "2017-8-11"
-//          obj.type = i % 2 ? "a" : "b"
-//          obj.title = "test title" + i
-//          this.articleList.push(obj)
-//        }
-//        console.log(this.articleList)
-//        this.currentIndex = 1
-//        this.totalNum = this.articleList.length
       }
     }
 </script>

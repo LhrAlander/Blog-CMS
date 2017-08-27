@@ -1,8 +1,9 @@
 /**
  * Created by Alander on 2017/8/7.
  */
+import router from '../router'
 var axios = require('axios')
-exports.actions = {
+export default {
   doReg ({ commit, state }, payload) {
     axios.post('/api/reg.do', {
       user: payload.user

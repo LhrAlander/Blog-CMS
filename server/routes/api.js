@@ -53,7 +53,6 @@ router.post('/login.do', (req, res, next) => {
       console.log('登录异常', err)
     }
     else {
-      console.log(crypto.getSha1(user.password), results[0].password)
       if (results.length && crypto.getSha1(user.password) === results[0].password) {
         message = '登录成功!'
         let expires = Date.now()
@@ -64,6 +63,7 @@ router.post('/login.do', (req, res, next) => {
         }, settins.tokenSecret)
         delete user.password
         res.send({
+          code: 1,
           token: token,
           expires: expires,
           user: user
@@ -134,6 +134,13 @@ router.post('/getArticles.do', (req, res, next) => {
     res.send(data)
   }
   api.getArticleList(getArticlesCb)
+})
+router.post('/delArticle.do', (req, res, next) => {
+  let articleId = req.body.articleId
+  let delArticleCb = data => {
+    res.send(data)
+  }
+  api.delArticle(articleId, delArticleCb)
 })
 
 module.exports = router

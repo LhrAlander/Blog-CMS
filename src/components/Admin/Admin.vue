@@ -11,7 +11,7 @@
             <ul class="dropdown-menu">
               <li><a href="javascript:void(0)">博客首页</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="javascript:void(0)">退出登录</a></li>
+              <li><a @click="logOut" href="/login">退出登录</a></li>
             </ul>
           </div>
         </div>
@@ -62,13 +62,19 @@
 
 <script>
     export default {
-        data () {
-            return {
-              isActive: true,
-              subShow: false,
-              currentStat: "文章管理"
-            }
+      data () {
+        return {
+          isActive: true,
+          subShow: false,
+          currentStat: "文章管理"
         }
+      },
+      methods: {
+        logOut() {
+          this.$store.commit('logout')
+          this.$router.push('/login')
+        }
+      }
     }
 </script>
 

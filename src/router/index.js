@@ -1,50 +1,59 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from 'components/Front/Index'
-import Login from 'components/Admin/Login'
-import Register from 'components/Admin/Register'
-import Admin from 'components/Admin/Admin'
-import Article from 'components/Admin/Article'
-import Type from 'components/Admin/Type'
-import CreateArticle from 'components/Admin/CreateArticle'
+import routes from './routes'
+import store from '../store'
 
 Vue.use(Router)
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      component: Index
-    },
-    {
-      path: '/login',
-      component: Login
-    },
-    {
-      path: '/reg',
-      component: Register
-    },
-    {
-      path: '/admin',
-      component: Admin,
-      children:[
-        {
-          path: '/',
-          component: Article
-        },
-        {
-          path: 'article',
-          component: Article
-        },
-        {
-          path: 'type',
-          component: Type
-        },
-        {
-          path: 'createArticle',
-          component: CreateArticle
-        }
-      ]
-    }
-  ]
+// 滚动条滚回顶部
+const scrollBehavior =(to, from, savedPosition)=> {
+  if (savedPosition) {
+    return savedPosition
+  } else {
+    return { x: 0, y: 0 }
+  }
+}
+
+let router = new Router({
+  mode:'history',
+  scrollBehavior,
+  routes
 })
+
+
+function isLoggedIn (){
+  let token = localStorage.getItem('jwt')
+  const payload = localStorage.getItem('expires')
+  console.log('token: ',token,'expires: ',payload )
+  if (token) {
+    return payload > Date.now()
+  }
+  return false
+}
+
+router.beforeEach((to, from, next) => {
+  let matchedList = to.matched
+  if (matchedList.some(record => record.meta.auth)) {
+    console.log('有路由发生', to, store.state.isLogin)
+    if (isLoggedIn()) {
+      next()
+    }
+    else {
+      next({
+        path: '/login'
+      })
+    }
+  }
+  else {
+    if (isLoggedIn() && (to.fullPath == '/reg' || to.fullPath == '/login')) {
+      next({
+        path: '/admin'
+      })
+    }
+    else {
+      next()
+    }
+  }
+})
+
+export default router

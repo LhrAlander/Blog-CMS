@@ -148,7 +148,6 @@
         },
         btnReturn () {
           if (this.modelObj.code == 1) {  // 创建文章成功
-            console.log('成功')
             this.$router.push('/admin/article')
           }
           else if (this.modelObj.code == 0) { // 文章信息不全

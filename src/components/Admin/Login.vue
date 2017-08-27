@@ -56,7 +56,13 @@
             }
             api.doLogin(user)()
               .then(res => {
-                console.log(res)
+                  console.log(res)
+                if (res.data.code == 1) {
+                  this.$store.commit('login', {
+                    token: res.data.token,
+                    expires: res.data.expires
+                  })
+                }
               })
               .catch(err => {
                   console.log(err)

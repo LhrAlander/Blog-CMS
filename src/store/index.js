@@ -13,6 +13,6 @@ console.log(actions.actions)
 
 export default new Vuex.Store({
   state,
-  actions: actions.actions,
-  mutations: mutations.mutations
+  actions,
+  mutations
 })

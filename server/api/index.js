@@ -216,6 +216,27 @@ function operateArticleList (articles, cb) {
     articles: articles
   })
 }
+function delRelation (articleId, cb) {
+  sql = `delete from relation where articleId = '${articleId}'`
+  db.query(sql, (err, results, fields) =>{
+    if (err) {
+      console.error(err)
+      cb({
+        code: 2,
+        msg: '数据库异常'
+      })
+    }
+    else {
+      console.log(results)
+      if (results) {
+        cb({
+          code: 1,
+          msg: '删除成功'
+        })
+      }
+    }
+  })
+}
 
 module.exports = {
   findType (type, cb) {
@@ -288,6 +309,24 @@ module.exports = {
           .then(data => {
             operateArticleList(results, cb)
           })
+      }
+    })
+  },
+  delArticle (articleId, cb) {
+    sql = `delete from article where articleId = '${articleId}'`
+    db.query(sql, (err, results, fields) =>{
+      if (err) {
+        console.error(err)
+        cb({
+          code: 2,
+          msg: '数据库异常'
+        })
+      }
+      else {
+        console.log(results)
+        if (results) {
+          delRelation(articleId, cb)
+        }
       }
     })
   }

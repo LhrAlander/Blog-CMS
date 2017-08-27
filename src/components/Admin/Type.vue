@@ -151,7 +151,6 @@
         this.initCreateSta()
       },
       delType () {
-        //TODO 删除分类
         api.delType(this.currentItem)()
           .then(res => {
             console.log(156, res)
@@ -178,7 +177,6 @@
       }
     },
     mounted () {
-      //TODO getArticleList()
       api.getTypeList()()
         .then(res => {
           this.typeList = res.data
