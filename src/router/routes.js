@@ -5,6 +5,7 @@ import Admin from 'components/Admin/Admin'
 import Article from 'components/Admin/Article'
 import Type from 'components/Admin/Type'
 import CreateArticle from 'components/Admin/CreateArticle'
+import ModifyArticle from 'components/Admin/ModifyArticle'
 
 export default [
     {
@@ -39,10 +40,11 @@ export default [
         {
           path: 'createArticle',
           component: CreateArticle
+        },
+        {
+          path: 'modifyArticle/:articleId',
+          component: ModifyArticle
         }
       ]
     }
   ]
-/**
- * Created by Alander on 2017/8/27.
- */

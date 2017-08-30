@@ -26,8 +26,7 @@
       <div class="col-xs-3">{{ item.title }}</div>
       <div class="col-xs-2">
           <button type="button" class="btn btn-default btn-sm">查看</button>
-          <button type="button" class="btn btn-primary btn-sm">编辑</button>
-
+          <button type="button" class="btn btn-primary btn-sm" @click="editArticle(item.articleId)">编辑</button>
         <div class="del" data-toggle="modal" data-target="#del-type">
           <button type="button" class="btn btn-danger btn-sm" @click="preDel(item)">删除</button>
         </div>
@@ -123,6 +122,9 @@
               this.modelStat.msg = '删除文章失败'
               this.modelStat.btnMsg = '返回'
             })
+        },
+        editArticle (articleId) {
+          this.$router.push('/admin/modifyArticle/'+articleId)
         }
       },
       computed: {

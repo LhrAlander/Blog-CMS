@@ -227,7 +227,6 @@ function delRelation (articleId, cb) {
       })
     }
     else {
-      console.log(results)
       if (results) {
         cb({
           code: 1,
@@ -323,10 +322,52 @@ module.exports = {
         })
       }
       else {
-        console.log(results)
         if (results) {
           delRelation(articleId, cb)
         }
+      }
+    })
+  },
+  getArticleById (articleId, cb) {
+    sql = `select * from article where articleId = '${articleId}'`
+    db.query(sql, (err, results, fields) => {
+      if (err) {
+        console.error(err)
+        cb({
+          code: 2,
+          msg: '数据库异常'
+        })
+      }
+      else {
+        createGetRelationTypePromise(articleId, results[0])
+          .then(data => {
+            operateArticleList(results, cb)
+          })
+      }
+    })
+  },
+  editArticle (oldOne, newOne, cb) {
+    sql = `delete from article where articleId = '${oldOne.articleId}'`
+    let delRelCb = data => {
+      if (data.code == 1) {
+        _createArticle(newOne, cb)
+      }
+      else {
+        cb({
+          code: 3,
+          msg: '修改失败'
+        })
+      }
+    }
+    db.query(sql, (err, results, fields) => {
+      if (err) {
+        cb({
+          code: 2,
+          msg: '数据库异常'
+        })
+      }
+      else {
+        delRelation(oldOne.articleId, delRelCb)
       }
     })
   }

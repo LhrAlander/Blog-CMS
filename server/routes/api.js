@@ -105,7 +105,6 @@ router.post('/createtype.do', (req, res, next) => {
 })
 router.post('/gettypelist.do', (req, res, next) => {
   api.getTypeList(data => {
-    console.log(108, data)
     res.send(data)
   })
 })
@@ -141,6 +140,24 @@ router.post('/delArticle.do', (req, res, next) => {
     res.send(data)
   }
   api.delArticle(articleId, delArticleCb)
+})
+router.post('/getArticleById.do', (req, res, next) => {
+  let articleId = req.body.articleId
+  let getArticleByIdCb = data => {
+   res.send(data)
+  }
+  api.getArticleById(articleId, getArticleByIdCb)
+})
+router.post('/editArticle.do', (req, res, next) => {
+  let oldOne = req.body.oldOne
+  let newOne = req.body.newOne
+  let editCb = data => {
+    if (data.code == 1) {
+      data.msg = '修改成功'
+    }
+    res.send(data)
+  }
+  api.editArticle(oldOne, newOne, editCb)
 })
 
 module.exports = router

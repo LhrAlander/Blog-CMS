@@ -27,5 +27,11 @@ export default {
   },
   delArticle (articleId) {
     return () => axios.post('/api/delArticle.do', articleId)
+  },
+  getArticleById (articleId) {
+    return () => axios.post('/api/getArticleById.do', articleId)
+  },
+  editArticle (articles) {
+    return () => axios.post('/api/editArticle.do', articles)
   }
 }

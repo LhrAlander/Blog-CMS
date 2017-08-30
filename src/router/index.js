@@ -34,7 +34,6 @@ function isLoggedIn (){
 router.beforeEach((to, from, next) => {
   let matchedList = to.matched
   if (matchedList.some(record => record.meta.auth)) {
-    console.log('有路由发生', to, store.state.isLogin)
     if (isLoggedIn()) {
       next()
     }
