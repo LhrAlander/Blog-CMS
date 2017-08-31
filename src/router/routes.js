@@ -6,11 +6,32 @@ import Article from 'components/Admin/Article'
 import Type from 'components/Admin/Type'
 import CreateArticle from 'components/Admin/CreateArticle'
 import ModifyArticle from 'components/Admin/ModifyArticle'
+import Blog from 'components/Front/Blog'
+import About from 'components/Front/About'
+import Main from 'components/Front/Main'
 
 export default [
     {
       path: '/',
-      component: Index
+      component: Index,
+      children: [
+        {
+          path: '/',
+          component: Main
+        },
+        {
+          path: 'index',
+          component: Main
+        },
+        {
+          path: 'blog',
+          component: Blog
+        },
+        {
+          path: 'about',
+          component: About
+        }
+      ]
     },
     {
       path: '/login',
