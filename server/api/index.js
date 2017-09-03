@@ -199,6 +199,20 @@ function createGetRelationTypePromise (articleId, item) {
       })
     })
 }
+function createGetTypePromise (name, item) {
+  let mySql = `select * from relation where ${name} = 1`
+  return new Promise((resovle, reject) => {
+    db.query(mySql, (err, results) => {
+      if (err) {
+        reject(err)
+      }
+      else {
+        item.num = results.length
+        resovle()
+      }
+    })
+  })
+}
 function operateArticleList (articles, cb) {
   articles.forEach(item => {
     let type = item.types[0],
@@ -215,6 +229,27 @@ function operateArticleList (articles, cb) {
     msg: '获取文章列表成功',
     articles: articles
   })
+}
+function operateDisplayArticles (cb, pageNum, limit, results) {
+  let responseData = {}
+  responseData.articleNum = results.length
+  responseData.code = 1
+  if (results.length) {
+    responseData.articles = results.slice(limit * (pageNum - 1), limit * pageNum)
+    let asyncProcess = []
+    responseData.articles.forEach(item => {
+      let articleId = item.articleId
+      asyncProcess.push(createGetRelationTypePromise(articleId, item))
+    })
+    Promise.all(asyncProcess)
+      .then (data => {
+        operateArticleList(responseData.articles, data => {
+          if (data.code == 1) {
+            cb(responseData)
+          }
+        })
+      })
+  }
 }
 function delRelation (articleId, cb) {
   sql = `delete from relation where articleId = '${articleId}'`
@@ -233,6 +268,39 @@ function delRelation (articleId, cb) {
           msg: '删除成功'
         })
       }
+    }
+  })
+}
+function getAllArticles (pageNum, limit, cb) {
+  sql = 'select * from article order by createTime desc'
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error(err)
+      cb({
+        code: 2,
+        msg: '数据库异常'
+      })
+    }
+    else {
+      operateDisplayArticles(cb, pageNum, limit, results)
+    }
+  })
+}
+function getArticlesByType (tagName, pageNum, limit, cb) {
+  sql = `select article.title, article.markedCnt, article.createTime, article.articleId
+         from article, relation
+         where article.articleId = relation.articleId and relation.${tagName} = 1
+         order by createTime desc`
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error(err)
+      cb({
+        code: 2,
+        msg: '数据库异常'
+      })
+    }
+    else {
+      operateDisplayArticles(cb, pageNum, limit, results)
     }
   })
 }
@@ -264,7 +332,21 @@ module.exports = {
       if (err) {
         throw err
       }
-      cb(results)
+      let promisList = []
+      results.forEach(item => {
+        promisList.push(createGetTypePromise(item.name, item))
+      })
+      Promise.all(promisList)
+        .then(data => {
+          cb(results)
+        })
+        .catch(err => {
+          console.error(err)
+          cb({
+            code: 0,
+            msg: 获取失败
+          })
+        })
     })
   },
   delType (name, cb) {
@@ -370,5 +452,14 @@ module.exports = {
         delRelation(oldOne.articleId, delRelCb)
       }
     })
+  },
+  getDisplayArticles (tagName, pageNum, limit, cb) {
+    if (tagName == 'all') {
+      getAllArticles(pageNum, limit, cb)
+    }
+    else {
+      console.log(tagName, pageNum, limit)
+      getArticlesByType(tagName, pageNum, limit, cb)
+    }
   }
 }

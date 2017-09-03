@@ -24,7 +24,6 @@ let router = new Router({
 function isLoggedIn (){
   let token = localStorage.getItem('jwt')
   const payload = localStorage.getItem('expires')
-  console.log('token: ',token,'expires: ',payload )
   if (token) {
     return payload > Date.now()
   }

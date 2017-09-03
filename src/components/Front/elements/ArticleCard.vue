@@ -2,20 +2,45 @@
   <div class="card">
     <div class="item">
       <div class="cnt">
-        <span class="title">Title</span>
-        <span class="time">2017-9-3</span>
-        <article>有两种监听器： 简单监听器，只能监听单一的property 复杂监听器：可以监听一到多个property 每个监听器都有一个或多个 依赖 ，当依赖发生有两种监听器： 简单监听器，只能监听单一的property 复杂监听器：可以监听一到多个property 每个监听器都有一个或多个 依赖 ，当依赖发生</article>
+        <span class="title">{{ title }}</span>
+        <span class="time">{{ time }}</span>
+        <article v-html="articleToString"></article>
+        <div class="btn-wrapper">
+          <div class="btn btn-primary read-more">Read More</div>
+        </div>
       </div>
       <div class="tags">
         <i class="iconfont tag-icon">&#xe610;</i>
-        <span class="tag-item">#学习</span>
+        <template v-for="tag in tags">
+          <span class="tag-item">#{{ tag }}&nbsp;&nbsp;</span>
+        </template>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-    export default {}
+  import marked from 'marked'
+  export default {
+    props: {
+      title: String,
+      time: String,
+      article: String,
+      tags: Array
+    },
+    computed: {
+      articleToString () {
+        let htmlString =  marked(this.article)
+        let from = htmlString.indexOf('<')
+        for (let i = 1; i < 4; i++) {
+          from = htmlString.indexOf('<', from + 1)
+        }
+        from = htmlString.indexOf('>', from + 1)
+        htmlString =  htmlString.slice(0, from + 1)
+        return htmlString
+      }
+    }
+  }
 </script>
 
 <style scoped>
@@ -31,17 +56,20 @@
   }
 
   .cnt {
-    padding: 24px;
+    padding: 24px 24px 6px;
   }
 
   .tags {
     padding: 16px 24px;
     border-top: 1px solid hsla(0, 0%, 63%, .2);
+    box-shadow: 0 -2px 10px 0 rgba(0,0,0,.14);
   }
 
   .tag-icon {
-    font-size: 150%;
+    font-size: 120%;
   }
+
+
 
   .title {
     display: block;
@@ -57,6 +85,20 @@
     margin-bottom: 10px;
     line-height: 20px;
     color: #607d8b;
+  }
+
+  article {
+    max-height: 200px;
+    overflow: hidden;
+  }
+
+  .btn-wrapper {
+    width: 100%;
+    text-align: right;
+  }
+
+  .read-more {
+    margin: 0;
   }
 
 </style>

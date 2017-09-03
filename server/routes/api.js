@@ -159,5 +159,17 @@ router.post('/editArticle.do', (req, res, next) => {
   }
   api.editArticle(oldOne, newOne, editCb)
 })
+router.post('/getDisplayArticles.do', (req, res, next) => {
+  let tagName = req.body.tag,
+      pageNum = req.body.page,
+      limit = req.body.limit
+  let getDisplayArticlesCb = data => {
+    res.send(data)
+  }
+  api.getDisplayArticles(tagName, pageNum, limit, getDisplayArticlesCb)
+})
+router.post('/getAllTypes.do', (req, res, next) => {
+
+})
 
 module.exports = router

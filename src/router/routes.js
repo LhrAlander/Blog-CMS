@@ -20,8 +20,14 @@ export default [
           component: Main
         },
         {
-          path: 'index',
-          component: Main
+          path: 'tag/:tagName',
+          component: Main,
+          children: [
+            {
+              path: 'page/:pageNum',
+              component: Main
+            }
+          ]
         },
         {
           path: 'blog',

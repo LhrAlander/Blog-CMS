@@ -8,7 +8,6 @@ import mutations from './mutations'
 import actions from './actions'
 
 Vue.use(Vuex)
-console.log(actions.actions)
 
 
 export default new Vuex.Store({

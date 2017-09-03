@@ -10,7 +10,6 @@ export default {
     return () => axios.post('/api/createtype.do', data)
   },
   getTypeList () {
-    console.log('gettypelist')
     return () => axios.post('/api/gettypelist.do')
   },
   delType (data) {

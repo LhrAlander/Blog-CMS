@@ -13,14 +13,17 @@
                   @clickListItem="clickListItem(item)"></side-bar-li>
     </ul>
     <ul class="nav-group external-link">
-      <side-bar-li iconCode="&#xe600;" itemName="Github" :collapsible='false' :needNum="false"></side-bar-li>
+      <a target="_blank" href="https://github.com/LhrAlander">
+        <side-bar-li iconCode="&#xe600;" itemName="Github" :collapsible='false' :needNum="false"></side-bar-li>
+      </a>
     </ul>
   </div>
 </template>
 
 <script>
   import SideBarLi from './SideBarLi'
-
+  import displayArticle from 'api/displayArticle'
+  import api from 'api'
   let navGroupLi = [
     {
       iconCode: '&#xe68a;',
@@ -29,7 +32,7 @@
       needNum: false,
       items: [
         {
-          name: 'test1'
+          name: 'test1',
         },
         {
           name: 'test2'
@@ -51,11 +54,13 @@
       items: [
         {
           name: '学习',
-          num: 2
+          num: 0,
+          link: '/tag/学习'
         },
         {
           name: '生活',
-          num: 4
+          num: 0,
+          link: '/tag/生活'
         }
       ],
       isShow: false
@@ -67,7 +72,7 @@
       },
       data () {
         return {
-          navGroupLi:navGroupLi
+          navGroupLi:{}
         }
       },
       methods: {
@@ -79,6 +84,38 @@
           })
           item.isShow = !item.isShow
         }
+      },
+      mounted () {
+        this.navGroupLi = navGroupLi
+        displayArticle.getDisplayArticles({
+          tag: 'all',
+          page: 1,
+          limit: 5
+        })
+          .then (res => {
+            if (res.data.code == 1) {
+              this.navGroupLi[0].items = []
+              let articles = res.data.articles
+              articles.forEach(item => {
+                let obj = {}
+                obj.name = item.title
+                obj.articleId = item.articleId
+                this.navGroupLi[0].items.push(obj)
+              })
+            }
+            return api.getTypeList()()
+          })
+          .then (res => {
+            this.navGroupLi[1].items = []
+            let types = res.data
+            types.forEach(item => {
+              let obj = {}
+              obj.name = item.name
+              obj.num = item.num
+              obj.link = '/tag/' + item.name
+              this.navGroupLi[1].items.push(obj)
+            })
+          })
       }
     }
 </script>

@@ -9,7 +9,6 @@ import 'jquery/src/jquery'
 import 'bootstrap/dist/js/bootstrap.min'
 
 Vue.config.productionTip = false
-console.log(store)
 
 /* eslint-disable no-new */
 new Vue({
