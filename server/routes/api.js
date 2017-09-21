@@ -163,6 +163,7 @@ router.post('/getDisplayArticles.do', (req, res, next) => {
   let tagName = req.body.tag,
       pageNum = req.body.page,
       limit = req.body.limit
+  console.log(tagName, pageNum, limit)
   let getDisplayArticlesCb = data => {
     res.send(data)
   }

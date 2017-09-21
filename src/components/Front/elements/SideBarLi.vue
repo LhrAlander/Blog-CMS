@@ -7,12 +7,14 @@
       <i class="iconfont icon-right" :class="{rotate: isShow}" v-if="!collapsible">&#xe611;</i>
     </div>
     <div class="collapsible-body" :class="{collapsibled: !isShow}">
-      <a v-for="item in items" class="collection-item" :href="item.link">
-        {{ item.name }}
-        <span class="badge" v-if="item.num">
-          {{ item.num }}
-        </span>
-      </a>
+      <template v-for="item in items">
+        <router-link v-bind:to="item.link" class="collection-item">
+          {{ item.name }}
+          <span class="badge" v-if="item.num">
+            {{ item.num }}
+          </span>
+        </router-link>
+      </template>
     </div>
   </li>
 </template>

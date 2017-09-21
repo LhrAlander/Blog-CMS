@@ -23,24 +23,34 @@
     components: {
       ArticleCard
     },
-    mounted () {
-      this.tag = this.$route.params.tagName || 'all'
-      this.page = this.$route.params.pageNum || 1
-      displayArticle.getDisplayArticles({
-        tag: this.tag,
-        page: this.page,
-        limit: this.limit
-      })
-        .then (res => {
-          let data = res.data
-          if (data.code == 1) {
-            this.totalNum = data.length
-            this.mainContent = data.articles
-          }
+    created () {
+      this.initData()
+    },
+    watch: {
+      $route() {
+        this.initData()
+      }
+    },
+    methods: {
+      initData () {
+        this.tag = this.$route.params.tagName || 'all'
+        this.page = this.$route.params.pageNum || 1
+        displayArticle.getDisplayArticles({
+          tag: this.tag,
+          page: this.page,
+          limit: this.limit
         })
-        .catch (err => {
+          .then (res => {
+            let data = res.data
+            if (data.code == 1) {
+              this.totalNum = data.length
+              this.mainContent = data.articles
+            }
+          })
+          .catch (err => {
             console.error(err)
-        })
+          })
+      }
     }
   }
 </script>

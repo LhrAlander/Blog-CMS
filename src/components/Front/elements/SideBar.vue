@@ -100,8 +100,10 @@
                 let obj = {}
                 obj.name = item.title
                 obj.articleId = item.articleId
+                obj.link = "/"
                 this.navGroupLi[0].items.push(obj)
               })
+              console.log("resres",this.navGroupLi[0].items)
             }
             return api.getTypeList()()
           })

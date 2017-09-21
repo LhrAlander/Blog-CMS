@@ -217,7 +217,8 @@
   .marked-cnt {
     background-color: #fff;
     max-width: 660px;
-    min-height: 450px;
+    height: 450px;
+    overflow: auto;
   }
 
   .footer {

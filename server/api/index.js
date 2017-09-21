@@ -1,5 +1,6 @@
 let db = require('../db')
 let sql = ''
+let mysql = require('mysql')
 const uuidV1 = require('uuid/v1')
 
 function checkUid (uid, cb) {
@@ -27,10 +28,12 @@ function _getUid (cb) {
   })
 }
 function _createArticle (article, cb) {
-  sql = `insert into article values("${article.title}", "${article.markedCnt}", "${article.createTime}", "${article.articleId}")`
+  sql = `insert into article values(${mysql.escape(article.title)}, ${mysql.escape(article.markedCnt)}, ${mysql.escape(article.createTime)}, ${mysql.escape(article.articleId)})`
+  console.log(sql)
   let responseDate = {}
   db.query(sql, (err, results, fields) => {
     if (err) {
+      console.log("createArticleErr", err)
       responseDate = {
         code: 3,
         msg: '数据库报错！'
@@ -169,7 +172,7 @@ function deleteFromRelation (name, cb) {
   sql = 'alter table relation drop '+name
   db.query(sql, (err, results, fields) => {
     if (err) {
-      console.error(err)
+      console.error("deleteFromRelation", err)
       cb({
         code: 3,
         msg: '数据库异常'
@@ -443,6 +446,7 @@ module.exports = {
     }
     db.query(sql, (err, results, fields) => {
       if (err) {
+        console.log(err)
         cb({
           code: 2,
           msg: '数据库异常'
