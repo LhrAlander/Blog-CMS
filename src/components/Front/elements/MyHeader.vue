@@ -23,9 +23,11 @@
       methods: {
         clickHome () {
           this.current = 'Home'
+          this.$router.push('/')
         },
         clickArchive () {
           this.current = 'Archive'
+          this.$router.push('/archive')
         },
         clickAbout () {
           this.current = 'About'

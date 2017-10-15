@@ -159,11 +159,11 @@ router.post('/editArticle.do', (req, res, next) => {
   }
   api.editArticle(oldOne, newOne, editCb)
 })
+
 router.post('/getDisplayArticles.do', (req, res, next) => {
   let tagName = req.body.tag,
       pageNum = req.body.page,
       limit = req.body.limit
-  console.log(tagName, pageNum, limit)
   let getDisplayArticlesCb = data => {
     res.send(data)
   }
@@ -173,4 +173,8 @@ router.post('/getAllTypes.do', (req, res, next) => {
 
 })
 
+router.get('/getArchives.do', (req, res, next) => {
+  let getArchivesCb = data => res.send(data)
+  api.getArchives(getArchivesCb)
+})
 module.exports = router

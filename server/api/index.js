@@ -3,6 +3,20 @@ let sql = ''
 let mysql = require('mysql')
 const uuidV1 = require('uuid/v1')
 
+// 深拷贝对象
+function deepCopy(obj){
+  let newobj = {}
+  for(objKey in obj){
+    if (typeof obj[objKey]==='object') {
+      newobj[objKey] = deepcopy(obj[objKey]) // 递归，核心代码
+    }
+    else {
+      newobj[objKey] = obj[objKey]
+    }
+  }
+  return newobj
+}
+
 function checkUid (uid, cb) {
   sql = 'select * from article where articleId='+'"'+uid+'"'
   db.query(sql, (err, results, fields) => {
@@ -311,6 +325,82 @@ function getArticlesByType (tagName, pageNum, limit, cb) {
     }
   })
 }
+// 获取归档
+function getYearAndMonth (date) {
+  let returnObj = {}
+  returnObj.year = date.split('-')[0]
+  returnObj.month = date.split('-')[1]
+  if (returnObj.month.length == 1)
+    returnObj.month = '0' + returnObj.month
+  return returnObj
+}
+function compareArchiveDateObj (obj1, obj2) {
+  return obj1.year == obj2.year && obj1.month == obj2.month
+}
+
+
+function _getArchives (cb) {
+  sql = 'select * from article order by createTime desc'
+  db.query(sql, (err, results) => {
+    if (err) {
+      console.error("function _getArchives err", err)
+      cb({
+        code: 2,
+        msg: '数据库异常'
+      })
+    }
+    else {
+      if (results.length) {
+        console.log(results)
+        let timeArchivesObj = new Array(),
+            currentDate = {
+              year: '1900',
+              month: '01',
+              first: true
+            },
+          articles = new Array()
+        results.forEach(item => {
+          let itemDate = getYearAndMonth(item.createTime)
+          if (!compareArchiveDateObj(currentDate, itemDate)) {
+            console.log("get one")
+            if (currentDate.first) {
+              currentDate.first = false
+            }
+            else {
+              console.log("push into timeArchivesObj")
+              timeArchivesObj.push({
+                date: currentDate.year + '/' + currentDate.month,
+                articles: articles.slice(0)
+              })
+              articles.length = 0
+            }
+            currentDate.year = itemDate.year
+            currentDate.month = itemDate.month
+          }
+          articles.push({
+            articleId: item.articleId,
+            name: item.title
+          })
+        })
+        timeArchivesObj.push({
+          date: currentDate.year + '/' + currentDate.month,
+          articles: articles.slice(0)
+        })
+        cb({
+          code: 1,
+          archive: timeArchivesObj
+        })
+      }
+      else {
+        cb({
+          code: 3,
+          msg: '无数据',
+          archive: null
+        })
+      }
+    }
+  })
+}
 
 module.exports = {
   findType (type, cb) {
@@ -470,5 +560,8 @@ module.exports = {
       console.log(tagName, pageNum, limit)
       getArticlesByType(tagName, pageNum, limit, cb)
     }
+  },
+  getArchives (cb) {
+    _getArchives(cb)
   }
 }

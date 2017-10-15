@@ -11,6 +11,7 @@ import About from 'components/Front/About'
 import Main from 'components/Front/Main'
 import ArticleDetail from 'components/Front/ArticleDetail'
 import Tags from 'components/Front/Tag'
+import Archive from 'components/Front/Archive'
 
 export default [
     {
@@ -46,6 +47,10 @@ export default [
         {
           "path": 'tags',
           component: Tags
+        },
+        {
+          "path": '/archive',
+          component: Archive
         }
       ]
     },
