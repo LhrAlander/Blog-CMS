@@ -25,7 +25,7 @@
       </div>
       <div class="col-xs-3">{{ item.title }}</div>
       <div class="col-xs-2">
-          <button type="button" class="btn btn-default btn-sm">查看</button>
+          <button type="button" class="btn btn-default btn-sm" @click="viewArticle(item.articleId)">查看</button>
           <button type="button" class="btn btn-primary btn-sm" @click="editArticle(item.articleId)">编辑</button>
         <div class="del" data-toggle="modal" data-target="#del-type">
           <button type="button" class="btn btn-danger btn-sm" @click="preDel(item)">删除</button>
@@ -125,6 +125,9 @@
         },
         editArticle (articleId) {
           this.$router.push('/admin/modifyArticle/'+articleId)
+        },
+        viewArticle (articleId) {
+          this.$router.push('/articleDetail/' + articleId)
         }
       },
       computed: {

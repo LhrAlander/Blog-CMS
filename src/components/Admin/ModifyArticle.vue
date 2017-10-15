@@ -233,7 +233,11 @@
     background-color: #fff;
     max-width: 660px;
     min-height: 450px;
+    max-height: 450px;
+    overflow: auto;
   }
+
+
 
   .footer {
     margin-top: 10px;

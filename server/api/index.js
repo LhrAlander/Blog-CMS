@@ -253,12 +253,16 @@ function operateDisplayArticles (cb, pageNum, limit, results) {
         })
       })
   }
+  else {
+    responseData.articles = []
+    cb(responseData)
+  }
 }
 function delRelation (articleId, cb) {
   sql = `delete from relation where articleId = '${articleId}'`
   db.query(sql, (err, results, fields) =>{
     if (err) {
-      console.error(err)
+      console.error("function delRelation err", err)
       cb({
         code: 2,
         msg: '数据库异常'
@@ -278,7 +282,7 @@ function getAllArticles (pageNum, limit, cb) {
   sql = 'select * from article order by createTime desc'
   db.query(sql, (err, results) => {
     if (err) {
-      console.error(err)
+      console.error("function getAllArticles err", err)
       cb({
         code: 2,
         msg: '数据库异常'
@@ -296,7 +300,7 @@ function getArticlesByType (tagName, pageNum, limit, cb) {
          order by createTime desc`
   db.query(sql, (err, results) => {
     if (err) {
-      console.error(err)
+      console.error("function getArticlesByType err", err)
       cb({
         code: 2,
         msg: '数据库异常'
@@ -458,6 +462,7 @@ module.exports = {
     })
   },
   getDisplayArticles (tagName, pageNum, limit, cb) {
+    console.log(tagName)
     if (tagName == 'all') {
       getAllArticles(pageNum, limit, cb)
     }

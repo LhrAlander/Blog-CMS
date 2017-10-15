@@ -100,7 +100,7 @@
                 let obj = {}
                 obj.name = item.title
                 obj.articleId = item.articleId
-                obj.link = "/"
+                obj.link = "/articleDetail/" + item.articleId
                 this.navGroupLi[0].items.push(obj)
               })
               console.log("resres",this.navGroupLi[0].items)
@@ -111,11 +111,13 @@
             this.navGroupLi[1].items = []
             let types = res.data
             types.forEach(item => {
-              let obj = {}
-              obj.name = item.name
-              obj.num = item.num
-              obj.link = '/tag/' + item.name
-              this.navGroupLi[1].items.push(obj)
+              if (item.num) {
+                let obj = {}
+                obj.name = item.name
+                obj.num = item.num
+                obj.link = '/tag/' + item.name
+                this.navGroupLi[1].items.push(obj)
+              }
             })
           })
       }

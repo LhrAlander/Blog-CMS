@@ -9,9 +9,9 @@
               更多操作 <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
             </button>
             <ul class="dropdown-menu">
-              <li><a href="javascript:void(0)">博客首页</a></li>
+              <li><router-link to="/">博客首页</router-link></li>
               <li role="separator" class="divider"></li>
-              <li><a @click="logOut" href="/login">退出登录</a></li>
+              <li><a @click="logOut" href="javascript:void(0)">退出登录</a></li>
             </ul>
           </div>
         </div>
@@ -21,7 +21,7 @@
           <div class="admin-items" @click="subShow = !subShow">
             <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
             <span style="padding-top: 2px;">管理面板</span>
-            <div class="spe" style="width: 340px"></div>
+            <div class="spe" style="width: 70%"></div>
             <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
           </div>
           <transition name="toggle">
@@ -30,7 +30,7 @@
                 <div class="admin-items deep-item" @click="currentStat = '文章管理'">
                   <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                   <span :class="{ selected: currentStat === '文章管理' }" style="padding-top: 2px;">文章管理</span>
-                  <div class="spe" style="width: 340px"></div>
+                  <div class="spe" style="width: 70%"></div>
                   <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                 </div>
               </router-link>
@@ -38,7 +38,7 @@
                 <div class="admin-items deep-item" @click="currentStat = '分类管理'">
                   <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                   <span :class="{ selected: currentStat === '分类管理' }" style="padding-top: 2px;">分类管理</span>
-                  <div class="spe" style="width: 340px"></div>
+                  <div class="spe" style="width: 70%"></div>
                   <span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
                 </div>
               </router-link>

@@ -1,22 +1,21 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-}
+/*html, body, div, span, applet, object, iframe,*/
+/*h1, h2, h3, h4, h5, h6, p, blockquote, pre,*/
+/*a, abbr, acronym, address, big, cite, code,*/
+/*del, dfn, em, img, ins, kbd, q, s, samp,*/
+/*small, strike, strong, sub, sup, tt, var,*/
+/*b, u, i, center,*/
+/*dl, dt, dd, ol, ul, li,*/
+/*fieldset, form, label, legend,*/
+/*table, caption, tbody, tfoot, thead, tr, th, td,*/
+/*article, aside, canvas, details, embed,*/
+/*figure, figcaption, footer, header, hgroup,*/
+/*menu, nav, output, ruby, section, summary,*/
+/*time, mark, audio, video {*/
+  /*margin: 0;*/
+  /*padding: 0;*/
+  /*border: 0;*/
+  /*font-size: 100%;*/
+/*}*/
 
 div {
   -webkit-box-sizing: border-box;
@@ -26,7 +25,12 @@ div {
 
 html,
 body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
   height: 100%;
+  font-family: Roboto,Helvetica,Hiragino Sans GB,Hiragino Sans GB W3,Source Han Sans CN Regular,WenQuanYi Micro Hei,Microsoft YaHei,Arial,sans-serif;
 }
 
 a {
@@ -38,13 +42,19 @@ a:focus {
   text-decoration: none !important;
 }
 
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}
+
 @font-face {
   font-family: 'iconfont';  /* project id 404073 */
-  src: url('//at.alicdn.com/t/font_404073_667v6u45njjxajor.eot');
-  src: url('//at.alicdn.com/t/font_404073_667v6u45njjxajor.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_404073_667v6u45njjxajor.woff') format('woff'),
-  url('//at.alicdn.com/t/font_404073_667v6u45njjxajor.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_404073_667v6u45njjxajor.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_404073_1xtpulzasnyiudi.eot');
+  src: url('//at.alicdn.com/t/font_404073_1xtpulzasnyiudi.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_404073_1xtpulzasnyiudi.woff') format('woff'),
+  url('//at.alicdn.com/t/font_404073_1xtpulzasnyiudi.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_404073_1xtpulzasnyiudi.svg#iconfont') format('svg');
 }
 
 .iconfont {

@@ -3,10 +3,13 @@ import App from './App'
 import router from './router'
 import store from './store'
 
-import './assets/css/base.css'
+
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery/src/jquery'
 import 'bootstrap/dist/js/bootstrap.min'
+import './assets/css/base.css'
+import './assets/css/articleDisplay.css'
+
 
 Vue.config.productionTip = false
 

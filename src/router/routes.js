@@ -9,6 +9,8 @@ import ModifyArticle from 'components/Admin/ModifyArticle'
 import Blog from 'components/Front/Blog'
 import About from 'components/Front/About'
 import Main from 'components/Front/Main'
+import ArticleDetail from 'components/Front/ArticleDetail'
+import Tags from 'components/Front/Tag'
 
 export default [
     {
@@ -36,6 +38,14 @@ export default [
         {
           path: 'about',
           component: About
+        },
+        {
+          "path": 'articleDetail/:articleId',
+          component: ArticleDetail
+        },
+        {
+          "path": 'tags',
+          component: Tags
         }
       ]
     },

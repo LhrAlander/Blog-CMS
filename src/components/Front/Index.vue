@@ -30,13 +30,13 @@
 <style scoped>
   .container-fluid {
     height: 100%;
-    background-color: #ebecee;
     padding: 0;
   }
 
   .main {
     padding: 64px 0 0 320px;
     min-height: 100%;
+    background-color: #ebecee;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

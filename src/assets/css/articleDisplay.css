@@ -1,0 +1,43 @@
+/*文章展示公用css文件*/
+.display-cnt h2,
+article h2,
+.post .card .card-cnt h2 {
+  color: #3f51b5;
+  font-size: 25px;
+}
+
+.display-cnt blockquote,
+article blockquote,
+.post .card .card-cnt blockquote {
+  border-left: 2px solid #3f51b5;
+  color: #4d4d4d;
+  background-color: #fafafa;
+  margin: 20px 0;
+  font-size: 16px;
+}
+
+.display-cnt pre,
+article pre,
+.post .card .card-cnt pre {
+  display: block;
+  overflow: auto;
+  background-color: #2b303b;
+  color: #c0c5ce;
+  padding: .5em;
+}
+
+.display-cnt>p,
+article>p,
+.post .card .card-cnt .article-cnt>p {
+  -ms-text-align-last: center;
+  text-align-last: center;
+}
+
+.display-cnt img,
+.post .card .card-cnt img {
+  max-width: 55%;
+  margin: auto;
+}
+
+
+

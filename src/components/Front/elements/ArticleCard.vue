@@ -6,7 +6,9 @@
         <span class="time">{{ time }}</span>
         <article v-html="articleToString"></article>
         <div class="btn-wrapper">
-          <div class="btn btn-primary read-more">Read More</div>
+          <router-link v-bind:to="concatArticleUrl">
+            <div class="btn btn-primary read-more">Read More</div>
+          </router-link>
         </div>
       </div>
       <div class="tags">
@@ -26,7 +28,8 @@
       title: String,
       time: String,
       article: String,
-      tags: Array
+      tags: Array,
+      articleId: String
     },
     computed: {
       articleToString () {
@@ -35,9 +38,18 @@
         for (let i = 1; i < 4; i++) {
           from = htmlString.indexOf('<', from + 1)
         }
+        from = htmlString.indexOf('</', from + 1)
         from = htmlString.indexOf('>', from + 1)
         htmlString =  htmlString.slice(0, from + 1)
         return htmlString
+      },
+      concatArticleUrl () {
+        return "/articleDetail/"+this.articleId
+      }
+    },
+    methods: {
+      readMore () {
+        this.$emit("readMore")
       }
     }
   }
