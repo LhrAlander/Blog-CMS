@@ -11,6 +11,8 @@ npm install
 npm start
 ````
 
+***启动服务后运行server/SQL/blog1.0.sql并更改server/db/index中的mysql相关配置***
+
 ***开发模式查看项目***
 ````
 cd Blog-CMS
