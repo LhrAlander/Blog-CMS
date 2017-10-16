@@ -3,18 +3,21 @@
 ## 使用
 ***先启动后端服务***
 
+````
 cd Blog-CMS/server
 npm install
 npm start
+````
 
 ***开发模式查看项目***
 ````
 cd Blog-CMS
 npm install
 npm run dev
+// *项目运行在9000端口，server启动在3000端口*
 ````
 
-*项目运行在9000端口，server启动在3000端口*
+
 
 ***打包上线***
 
