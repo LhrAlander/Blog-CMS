@@ -4,9 +4,9 @@
     <div class="nav-left" @click="clickHome">Another One</div>
     <div class="nav-mid">
       <ul>
-        <li class="tab" :class="{active: current == 'Home'}" @click="clickHome">Home</li>
-        <li class="tab" :class="{active: current == 'Archive'}" @click="clickArchive">Archive</li>
-        <li class="tab" :class="{active: current == 'About'}" @click="clickAbout">About</li>
+        <li class="tab" :class="{active: currentPage == '/'}" @click="clickHome">Home</li>
+        <li class="tab" :class="{active: currentPage == '/archive'}" @click="clickArchive">Archive</li>
+        <li class="tab" :class="{active: currentPage == '/about'}" @click="clickAbout">About</li>
       </ul>
     </div>
     <div class="nav-right"></div>
@@ -15,22 +15,20 @@
 
 <script>
     export default {
-      data () {
-        return {
-          current: 'Home'
-        }
-      },
       methods: {
         clickHome () {
-          this.current = 'Home'
           this.$router.push('/')
         },
         clickArchive () {
-          this.current = 'Archive'
           this.$router.push('/archive')
         },
         clickAbout () {
-          this.current = 'About'
+          this.$router.push('/about')
+        }
+      },
+      computed: {
+        currentPage () {
+          return this.$route.path
         }
       }
     }

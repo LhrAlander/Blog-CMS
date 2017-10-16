@@ -12,5 +12,8 @@ export default {
   logout (state) {
     localStorage.clear()
     state.token = null
+  },
+  changeCurrentPage (state, page) {
+    state.currentPage = page
   }
 }
