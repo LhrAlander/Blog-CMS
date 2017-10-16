@@ -2,19 +2,26 @@
 
 ## 使用
 ***先启动后端服务***
+
 cd Blog-CMS/server
 npm install
 npm start
 
 ***开发模式查看项目***
+````
 cd Blog-CMS
 npm install
 npm run dev
+````
+
 *项目运行在9000端口，server启动在3000端口*
 
 ***打包上线***
+
+````
 cd Blog-CMS
 npm run build
+````
 
 ## 很开心的事是自己的个人网站终于可以粗略地投入使用了
 ## 哈哈哈哈哈哈哈哈哈哈哈
