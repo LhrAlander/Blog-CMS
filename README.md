@@ -1,31 +1,42 @@
-# myblog
+# 磨磨蹭蹭终于完成网站的建设
 
-> A Vue.js project
+******
+## 很开心的事是自己的个人网站终于可以粗略地投入使用了
+## 哈哈哈哈哈哈哈哈哈哈哈
+[域名在审核](http://47.95.13.164)
 
-## Build Setup
+技术栈：
+- 前端
+  - vue 全家桶
+- 后端
+  - nodejs
+  - mysql
 
-``` bash
-# install dependencies
-npm install
+项目情况：
+- 已完成
+  - 桌面端
+  - 后台管理系统
+  - markdown支持
+- 待做
+  - 移动端
+  - 代码的重构优化
 
-# serve with hot reload at localhost:9000
-npm run dev
+第一次做自己喜欢的事并且完成了大半真的很开心，而且本着开源代码的心情也不在乎网站被攻击的事情了反正本地也有备份（也不会有人闲的蛋疼吧大概）。
 
-# init MySQL
-run server/SQL/blog1.0.sql
-modify server/db/index.js
-change the username and password for MySQL
 
-# to start server
-server loat at port 3000
-cd server
-npm start
+![首页](http://upload-images.jianshu.io/upload_images/5377782-683d54cf9ff74903.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-# build for production with minification
-npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
+![归档](http://upload-images.jianshu.io/upload_images/5377782-64b50f46bc52c77d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+![About](http://upload-images.jianshu.io/upload_images/5377782-1034e82d6089c15e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+
+![admin](http://upload-images.jianshu.io/upload_images/5377782-ea6b6aea8d72c182.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
+#### 匆匆忙忙又磨磨蹭蹭赶出来了，以后终于想写什么就写什么了，感觉就像有了个家。
+
+````
+console.log("晚安")
+````
