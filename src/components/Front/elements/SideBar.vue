@@ -141,7 +141,8 @@
 
   .profile-bg {
     height: 150px;
-    background: url('../../../assets/img/Block.png') center;
+    /*background: url('../../../assets/img/Block.png') center;*/
+    background: url('/static/Block.png') center;
     background-size: 320px 150px;
   }
 

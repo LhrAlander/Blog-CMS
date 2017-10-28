@@ -26,17 +26,11 @@ article pre,
   padding: .5em;
 }
 
-.display-cnt>p,
-article>p,
-.post .card .card-cnt .article-cnt>p {
-  -ms-text-align-last: center;
-  text-align-last: center;
-}
-
 .display-cnt img,
 .post .card .card-cnt img {
+  display: block;
   max-width: 55%;
-  margin: auto;
+  margin: 3rem auto;
 }
 
 
