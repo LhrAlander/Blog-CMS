@@ -249,6 +249,7 @@ function operateArticleList (articles, cb) {
 }
 function operateDisplayArticles (cb, pageNum, limit, results) {
   let responseData = {}
+  console.log('all articles', results)
   responseData.articleNum = results.length
   responseData.code = 1
   if (results.length) {

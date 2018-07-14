@@ -112,6 +112,7 @@
         createArticle () {
           if (this.article.title && this.article.selectedList.length && this.article.markedCnt) {
             this.article.createTime = util.getCurrentTime()
+            console.log(this.article.createTime)
             api.createArticle(this.article)()
               .then((res) => {
                 let data = res.data
