@@ -2,6 +2,7 @@ let db = require('../db')
 let sql = ''
 let mysql = require('mysql')
 const uuidV1 = require('uuid/v1')
+const sendMaile = require('../util/mail')
 
 // 深拷贝对象
 function deepCopy(obj){
@@ -43,7 +44,7 @@ function _getUid (cb) {
 }
 function _createArticle (article, cb) {
   sql = `insert into article values(${mysql.escape(article.title)}, ${mysql.escape(article.markedCnt)}, ${mysql.escape(article.createTime)}, ${mysql.escape(article.articleId)})`
-  console.log(sql)
+  sendMaile.sendMail(article)
   let responseDate = {}
   db.query(sql, (err, results, fields) => {
     if (err) {
@@ -62,6 +63,7 @@ function _createArticle (article, cb) {
               code: 1,
               msg: '创建成功'
             }
+
             cb(responseDate)
           }
         })
