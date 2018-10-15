@@ -51,16 +51,11 @@ npm run build
 第一次做自己喜欢的事并且完成了大半真的很开心，而且本着开源代码的心情也不在乎网站被攻击的事情了反正本地也有备份（也不会有人闲的蛋疼吧大概）。
 
 
-![首页](http://upload-images.jianshu.io/upload_images/5377782-683d54cf9ff74903.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-
 ![归档](http://upload-images.jianshu.io/upload_images/5377782-64b50f46bc52c77d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 ![About](http://upload-images.jianshu.io/upload_images/5377782-1034e82d6089c15e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-
-![admin](http://upload-images.jianshu.io/upload_images/5377782-ea6b6aea8d72c182.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 #### 匆匆忙忙又磨磨蹭蹭赶出来了，以后终于想写什么就写什么了，感觉就像有了个家。
 
